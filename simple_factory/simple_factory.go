@@ -4,52 +4,32 @@ import (
 	"fmt"
 )
 
-type Phone interface {
-	GetName() string
-	SetName(name string)
+// ConfigFileParser
+type ConfigFileParser interface {
+	Parse(filename string)
 }
 
-// HuWeiPhone 华为手机
-type HuWeiPhone struct {
-	Name string
+// YamlConfigParser
+type YamlConfigParser struct{}
+
+func (y YamlConfigParser) Parse(filename string) {
+	fmt.Printf("%s yaml file parser", filename)
 }
 
-func (h *HuWeiPhone) GetName() string {
-	return h.Name
+// JsonConfigParser
+type JsonConfigParser struct{}
+
+func (y JsonConfigParser) Parse(filename string) {
+	fmt.Printf("%s yaml file parser", filename)
 }
 
-func (h *HuWeiPhone) SetName(name string) {
-	h.Name = name
-}
-
-func NewHuWeiPhone() *HuWeiPhone {
-	return &HuWeiPhone{Name: "xiaomi"}
-}
-
-// XiaoMiPhone 小米手机
-type XiaoMiPhone struct {
-	Name string
-}
-
-func (x *XiaoMiPhone) GetName() string {
-	return x.Name
-}
-
-func (x *XiaoMiPhone) SetName(name string) {
-	x.Name = name
-}
-
-func NewXiaoMiPhone() *XiaoMiPhone {
-	return &XiaoMiPhone{Name: "xiaomi"}
-}
-
-func GetPhone(phone string) (Phone, error) {
-	switch phone {
-	case "xiaomi":
-		return NewXiaoMiPhone(), nil
-	case "huawei":
-		return NewHuWeiPhone(), nil
-	default:
-		return nil, fmt.Errorf("wrong phone type passed")
+// NewConfigFileParser
+func NewConfigFileParser(parser string, filename string) ConfigFileParser {
+	switch parser {
+	case "json":
+		return JsonConfigParser{}
+	case "yaml":
+		return YamlConfigParser{}
 	}
+	return nil
 }

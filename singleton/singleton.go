@@ -17,7 +17,9 @@ func GetInstance() *single {
 	// 当然也可以使用:
 	// lock := sync.Mutex | lock.lock()  | defer lock.unlock()
 	if instance == nil {
-		once.Do(func() { instance = &single{} })
+		once.Do(func() {
+			instance = &single{}
+		})
 	}
 	return instance
 }
